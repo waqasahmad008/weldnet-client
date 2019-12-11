@@ -88,7 +88,7 @@ export default function Dashboard() {
               </Portlet>
 
               <div className="kt-space-20" />
-
+<h1>WELCEOME </h1>
               <Portlet className="kt-portlet--height-fluid-half kt-portlet--border-bottom-brand">
                 <PortletBody fluid={true}>
                   <QuickStatsChart

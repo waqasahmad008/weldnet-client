@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { Formik } from "formik";
 import { connect } from "react-redux";
 import { FormattedMessage, injectIntl } from "react-intl";
@@ -8,6 +8,8 @@ import { TextField } from "@material-ui/core";
 import clsx from "clsx";
 import * as auth from "../../store/ducks/auth.duck";
 import { login } from "../../crud/auth.crud";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 function Login(props) {
   const { intl } = props;
@@ -28,8 +30,8 @@ function Login(props) {
 
   return (
     <>
-      <div className="kt-login__head">
-        <span className="kt-login__signup-label">
+    <div className="kt-login__head">
+         <span className="kt-login__signup-label">
           Don't have an account yet?
         </span>
         &nbsp;&nbsp;
@@ -84,11 +86,14 @@ function Login(props) {
                   .then(res => {
                     console.log(res.data);
                     if(res.data == "login success"){
-                      alert(res.data);
+                    toast.success("Loggedin successfully");
                       console.log(res.data);
+
+                     props.history.push("/dashboard");
                     }
                     else{
-                      alert(res.data);
+                        toast.error("Invalid Login",res.data);
+                    //  alert(res.data);
                       disableLoading();
                       setSubmitting(false);
                     }

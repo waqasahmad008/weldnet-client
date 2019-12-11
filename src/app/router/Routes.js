@@ -17,6 +17,9 @@ import { LayoutContextProvider } from "../../_metronic";
 import Layout from "../../_metronic/layout/Layout";
 import * as routerHelpers from "../router/RouterHelpers";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+
 export const Routes = withRouter(({ history }) => {
   const lastLocation = useLastLocation();
   routerHelpers.saveLastLocation(lastLocation);
@@ -32,25 +35,20 @@ export const Routes = withRouter(({ history }) => {
   return (
     /* Create `LayoutContext` from current `history` and `menuConfig`. */
     <LayoutContextProvider history={history} menuConfig={menuConfig}>
+    <ToastContainer />
       <Switch>
         {!isAuthorized ? (
           /* Render auth page when user at `/auth` and not authorized. */
           <Route path="/auth" component={AuthPage} />
         ) : (
           /* Otherwise redirect to root page (`/`) */
-          <Redirect from="/auth" to={userLastLocation} />
+          // <Redirect from="/auth" to={userLastLocation} />
+            <Redirect from="/dashboard" to='/dashboard' />
         )}
         <Route path="/error" component={ErrorsPage} />
         <Route path="/logout" component={LogoutPage} />
 
-        {!isAuthorized ? (
-          /* Redirect to `/auth` when user is not authorized */
-          <Redirect to="/auth/login" />
-        ) : (
-          <Layout>
-            <HomePage userLastLocation={userLastLocation} />
-          </Layout>
-        )}
+      
       </Switch>
     </LayoutContextProvider>
   );

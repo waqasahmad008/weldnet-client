@@ -7,6 +7,7 @@ import { Helmet } from "react-helmet";
 import { toAbsoluteUrl } from "../../../_metronic";
 import "../../../_metronic/_assets/sass/pages/login/login-1.scss";
 
+
 export default function AuthPage() {
   return (
     <>
@@ -78,6 +79,7 @@ export default function AuthPage() {
 
             <div className="kt-grid__item kt-grid__item--fluid  kt-grid__item--order-tablet-and-mobile-1  kt-login__wrapper">
               <Switch>
+
                 <Redirect from="/auth" exact={true} to="/auth/login" />
 
                 <Route path="/auth/login" component={Login} />

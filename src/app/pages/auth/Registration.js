@@ -8,13 +8,15 @@ import { Checkbox, FormControlLabel, TextField } from "@material-ui/core";
 import * as auth from "../../store/ducks/auth.duck";
 import { register } from "../../crud/auth.crud";
 import  { Redirect } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 function Registration(props) {
   const { intl } = props;
 
   return (
     <div className="kt-login__body">
-      <div className="kt-login__form">
+       <div className="kt-login__form">
         <div className="kt-login__title">
           <h3>
             <FormattedMessage id="AUTH.REGISTER.TITLE" />
@@ -81,10 +83,14 @@ function Registration(props) {
           onSubmit={(values, { setStatus, setSubmitting }) => {
             axios.post("http://localhost:5000/signup", values)
               .then(res => {
-                console.log(res.data);
-                if(res.data == "success"){
-                  alert(res.data);
+                console.log(res.data.message);
+              if(res.data.message){
+                  //console.log(res.data);
+                  toast.success(res.data.message);
                   props.history.push("/");
+               }else{
+                  toast.error(res.data.error);
+                  setSubmitting(false);
                 }
                 // else{
                 //   alert(res);
@@ -92,15 +98,20 @@ function Registration(props) {
                 // }
                 //props.register(accessToken);
               })
-              .catch(() => {
-                console.log('falie')
-                setSubmitting(false);
-                setStatus(
-                  intl.formatMessage({
-                    id: "AUTH.VALIDATION.INVALID_LOGIN"
-                  })
-                );
-              });
+              .catch(error => {
+                console.log('SIGNUP ERROR', error.res.data);
+                ///setValues({ ...values, buttonText: 'Submit' });
+                toast.error(error.res.data.error);
+            });
+              // .catch(() => {
+              //   console.log('falie')
+              //   setSubmitting(false);
+              //   setStatus(
+              //     intl.formatMessage({
+              //       id: "AUTH.VALIDATION.INVALID_LOGIN"
+              //     })
+              //   );
+              // });
           }}
         >
           {({
