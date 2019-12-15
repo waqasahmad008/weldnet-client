@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const LOGIN_URL = "api/auth/login";
-export const REGISTER_URL = "http://localhost:3000/signup";
+export const REGISTER_URL = "http://localhost:5000/signup";
 export const REQUEST_PASSWORD_URL = "api/auth/forgot-password";
 
 export const ME_URL = "api/me";

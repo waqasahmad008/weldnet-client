@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Formik } from "formik";
 import { connect } from "react-redux";
 import { FormattedMessage, injectIntl } from "react-intl";
@@ -8,7 +8,7 @@ import { TextField } from "@material-ui/core";
 import clsx from "clsx";
 import * as auth from "../../store/ducks/auth.duck";
 import { login } from "../../crud/auth.crud";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 
 function Login(props) {
@@ -79,10 +79,10 @@ function Login(props) {
               //return errors;
             }}
             onSubmit={(values, { setStatus, setSubmitting }) => {
-              console.log('dfdf');
+              console.log('Form Submitted');
               enableLoading();
               setTimeout(() => {
-                axios.post("http://localhost:5000/signin", values)
+                axios.post(`${process.env.REACT_APP_API}/signin`, values)
                   .then(res => {
                     console.log(res.data);
                     if(res.data == "login success"){

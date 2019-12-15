@@ -1,24 +1,32 @@
 import React, { Component } from "react";
+import axios from "axios";
 import { Formik } from "formik";
 import { connect } from "react-redux";
 import { TextField } from "@material-ui/core";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FormattedMessage, injectIntl } from "react-intl";
 import * as auth from "../../store/ducks/auth.duck";
 import { requestPassword } from "../../crud/auth.crud";
+import {toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 
-class ForgotPassword extends Component {
-  state = { isRequested: false };
-
-  render() {
-    const { intl } = this.props;
-    const { isRequested } = this.state;
-
-    if (isRequested) {
-      return <Redirect to="/auth" />;
-    }
-
-    return (
+function ForgotPassword(props) {
+  //state = { isRequested: false };
+  const { intl } = props;
+//const { isRequested } = this.state;
+  return (
+// class ForgotPassword extends Component {
+//   state = { isRequested: false };
+//
+//   render() {
+//     const { intl } = this.props;
+//     const { isRequested } = this.state;
+//
+//     if (isRequested) {
+//       return <Redirect to="/auth" />;
+//     }
+//
+//     return (
       <div className="kt-grid__item kt-grid__item--fluid  kt-grid__item--order-tablet-and-mobile-1  kt-login__wrapper">
         <div className="kt-login__body">
           <div className="kt-login__form">
@@ -48,19 +56,44 @@ class ForgotPassword extends Component {
                 return errors;
               }}
               onSubmit={(values, { setStatus, setSubmitting }) => {
-                requestPassword(values.email)
-                  .then(() => {
-                    this.setState({ isRequested: true });
+
+                axios.post(`${process.env.REACT_APP_API}/forgot`, values)
+                  .then(res => {
+                    console.log(res.data.message);
+                  if(res.data.message){
+                      //console.log(res.data);
+                      this.setState({ isRequested: true });
+                      toast.success(res.data.message);
+                      props.history.push("/");
+                   }else{
+                      toast.error(res.data.error);
+                      setSubmitting(false);
+                    }
+                    // else{
+                    //   alert(res);
+                    //   setSubmitting(false);
+                    // }
+                    //props.register(accessToken);
                   })
-                  .catch(() => {
-                    setSubmitting(false);
-                    setStatus(
-                      intl.formatMessage(
-                        { id: "AUTH.VALIDATION.NOT_FOUND" },
-                        { name: values.email }
-                      )
-                    );
-                  });
+                  .catch(error => {
+                    console.log('FORGOT ERROR', error);
+                    ///setValues({ ...values, buttonText: 'Submit' });
+                    toast.error(error);
+                });
+
+                // requestPassword(values.email)
+                //   .then(() => {
+                //     this.setState({ isRequested: true });
+                //   })
+                //   .catch(() => {
+                //     setSubmitting(false);
+                //     setStatus(
+                //       intl.formatMessage(
+                //         { id: "AUTH.VALIDATION.NOT_FOUND" },
+                //         { name: values.email }
+                //       )
+                //     );
+                //   });
               }}
             >
               {({
@@ -118,7 +151,7 @@ class ForgotPassword extends Component {
         </div>
       </div>
     );
-  }
+//  }
 }
 
 export default injectIntl(

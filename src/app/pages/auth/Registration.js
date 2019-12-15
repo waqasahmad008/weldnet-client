@@ -7,8 +7,8 @@ import { FormattedMessage, injectIntl } from "react-intl";
 import { Checkbox, FormControlLabel, TextField } from "@material-ui/core";
 import * as auth from "../../store/ducks/auth.duck";
 import { register } from "../../crud/auth.crud";
-import  { Redirect } from 'react-router-dom'
-import { ToastContainer, toast } from 'react-toastify';
+// import  { Redirect } from 'react-router-dom'
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 
 function Registration(props) {
@@ -16,7 +16,7 @@ function Registration(props) {
 
   return (
     <div className="kt-login__body">
-       <div className="kt-login__form">
+         <div className="kt-login__form">
         <div className="kt-login__title">
           <h3>
             <FormattedMessage id="AUTH.REGISTER.TITLE" />
@@ -81,7 +81,8 @@ function Registration(props) {
              //return errors;
           }}
           onSubmit={(values, { setStatus, setSubmitting }) => {
-            axios.post("http://localhost:5000/signup", values)
+            console.log(process.env);
+            axios.post(`${process.env.REACT_APP_API}/signup`, values)
               .then(res => {
                 console.log(res.data.message);
               if(res.data.message){

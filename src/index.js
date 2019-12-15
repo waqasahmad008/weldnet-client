@@ -11,6 +11,7 @@ import ReactDOM from "react-dom";
 import store, { persistor } from "./app/store/store";
 import App from "./App";
 import "./index.scss"; // Standard version
+
 // import "./sass/style.react.rtl.css"; // RTL version
 import "socicon/css/socicon.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -23,6 +24,7 @@ import "./_metronic/_assets/plugins/flaticon2/flaticon.css";
 //  * @see https://facebook.github.io/create-react-app/docs/using-the-public-folder
 //  */
 const { PUBLIC_URL } = process.env;
+ console.log(process.env);
 
 // /**
 //  * Creates `axios-mock-adapter` instance for provided `axios` instance, add
